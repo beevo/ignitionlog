@@ -1,4 +1,21 @@
 <?php
+//  IF YOU ARE USING A LOCAL DEV ENIRONMENT EDIT
+//    C:/Windows/System32/drivers/etc/hosts
+//    - Add the dev url to the bottom.
+//    - EX: 127.0.0.1       test.nombers.dev
+//    apache/conf/extra/httpd-vhosts.conf
+//    - Add the Virual Host
+//    Ex:
+//    <VirtualHost *:80>
+//         ServerName test.nombers.dev
+//         DocumentRoot "C:/xampp/htdocs/nomers"
+//        <Directory "C:/xampp/htdocs/nomers">
+//             Options Indexes FollowSymLinks
+//            AllowOverride All
+//            Order allow,deny
+//            Allow from all
+//        </Directory>
+//    </VirtualHost>
 
 /**
  * Configuration
