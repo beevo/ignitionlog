@@ -1,0 +1,183 @@
+.table-header{
+  margin: 0px;
+}
+.schedule-table>thead>tr>th,
+.schedule-table>tbody>tr>th,
+.schedule-table>tfoot>tr>th,
+.schedule-table>thead>tr>td,
+.schedule-table>tbody>tr>td,
+.schedule-table>tfoot>tr>td{
+  width: 11rem !important;
+}
+.schedule-table-container{
+  height: 65vh;
+  overflow-y: overlay;
+  border: 1px solid #ddd;
+  margin-bottom: 30px;
+}
+.template-link{
+  padding: 0px;
+  display: block;
+  min-height: 22px;
+  color: white;
+  width: 9rem !important;
+}
+
+@media (max-width: 820px){
+  .schedule-table>thead>tr>th,
+  .schedule-table>tbody>tr>th,
+  .schedule-table>tfoot>tr>th,
+  .schedule-table>thead>tr>td,
+  .schedule-table>tbody>tr>td,
+  .schedule-table>tfoot>tr>td{
+    width: 8rem !important;
+    font-size: 1rem;
+  }
+  .template-link{
+    width: 0rem !important;
+    padding: 10px;
+  }
+  .schedule-table-container{
+    overflow-x: hidden;
+  }
+}
+.template-panel{
+  margin-bottom: 30px;
+}
+.anchor{
+  padding-top: 55px;
+}
+a.template-link:hover, .template-panel .panel-heading{
+  color: white;
+}
+body
+{
+  background-image: url(../img/bg.jpg);
+}
+.table-header{
+  margin: 0px;
+}
+.schedule-table>thead>tr>th,
+.schedule-table>tbody>tr>th,
+.schedule-table>tfoot>tr>th,
+.schedule-table>thead>tr>td,
+.schedule-table>tbody>tr>td,
+.schedule-table>tfoot>tr>td{
+  width: 11rem !important;
+}
+.schedule-table-container{
+  height: 65vh;
+  overflow-y: overlay;
+  border: 1px solid #ddd;
+  margin-bottom: 30px;
+}
+.template-link{
+  padding: 0px;
+  display: block;
+  min-height: 22px;
+  color: white;
+  width: 9rem !important;
+  margin: 1px;
+  text-align: center;
+}
+
+@media (max-width: 820px){
+  .schedule-table>thead>tr>th,
+  .schedule-table>tbody>tr>th,
+  .schedule-table>tfoot>tr>th,
+  .schedule-table>thead>tr>td,
+  .schedule-table>tbody>tr>td,
+  .schedule-table>tfoot>tr>td{
+    width: 8rem !important;
+  }
+  .template-link{
+    width: 0rem !important;
+    padding: 10px;
+  }
+  .schedule-table-container{
+    overflow-x: hidden;
+  }
+}
+.template-panel{
+  margin-bottom: 30px;
+}
+.anchor{
+  padding-top: 55px;
+}
+a.template-link:hover, .template-panel .panel-heading{
+  color: white;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.bootstrap-switch.bootstrap-switch-readonly .bootstrap-switch-handle-on{
+  opacity: 1 !important;
+}
+.page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 05px solid lightgray;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.navbar-toggle{
+  padding: 5px 5px;
+}
+td {
+  font-size: 1.4rem;
+}
+.price-box{
+  width: 7rem;
+}
+.navbar-white
+{
+  background-color: #fff;
+  border-color: #080808;
+  border-bottom: 4px solid;
+}
+
+.navbar-brand
+{
+	padding: 7px 15px;
+}
+
+#loading
+{
+	width: 200px;
+	height: 50px;
+	background-color: #FFFFFF;
+	border: 1px solid #CCC;
+	font-weight: bold;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-top: -50px;
+	margin-left: -100px;
+	text-align: center;
+}
+.keetye-form-container{
+  max-width: 500px;
+}
+.k-nav-current > .k-link span + span {
+    max-width: 200px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: top;
+}
