@@ -9,32 +9,31 @@ Shoving Ranges of Postions of x Players
 		<form>
 		  <div class="form-group">
 			<label>Player Left to Act</label>
-			<br>			
-			<input checked="" type="radio" class="form-check-input" name="player_comp" value = "eq" >
-			Equal To:
-			<input type="radio" class="form-check-input" name="player_comp" value = "lt" >
-			Less Than:
-			<input type="radio" class="form-check-input" name="player_comp" value = "gt" >
-			Greater Than:
-		  <input value="6" name="players" type="number" class="form-control" placeholder="Players left in Hand">
+			<br>
+			<?php foreach ($playerComps as $key => $pcomp): ?>
+				<input <?= $pcomp->checked ?> type="radio" class="form-check-input"
+				name="player_comp" value = "<?= $pcomp->value ?>" >
+				<?= $pcomp->alias ?>
+			<?php endforeach; ?>
+
+		  <input value="<?= $params['players'] ?>" name="players" type="number" class="form-control" placeholder="Players left in Hand">
 
 			</div>
 		  <div class="form-group">
-		  
+
 			<label>Action</label>
-			<input disabled value="shove" name="action" type="text" class="form-control" placeholder="Action">
+			<input disabled value="shove" name="<?= $params['action'] ?>" type="text" class="form-control" placeholder="Action">
 		  </div>
 		  <div class="form-group">
-		  
+
 			<label>Effective Bet (in Big Blinds)</label>
 			<br>
-			<input checked="" type="radio" class="form-check-input" name="e_bet_comp" value = "eq" >
-			Equal To:
-			<input type="radio" class="form-check-input" name="e_bet_comp" value = "lt" >
-			Less Than:
-			<input type="radio" class="form-check-input" name="e_bet_comp" value = "gt" >
-			Greater Than:
-			<input value="10" name="e_bet" type="number" class="form-control" placeholder="Action">
+			<?php foreach ($betComps as $key => $bcomp): ?>
+				<input <?= $bcomp->checked ?> type="radio" class="form-check-input"
+				name="e_bet_comp" value = "<?= $bcomp->value ?>" >
+				<?= $bcomp->alias ?>
+			<?php endforeach; ?>
+			<input value="<?= $params['e_bet'] ?>" name="e_bet" type="number" class="form-control" placeholder="Action">
 		  </div>
 		  <div class="form-group">
 			<label for="exampleSelect1">Position</label>
@@ -43,9 +42,17 @@ Shoving Ranges of Postions of x Players
 					'UTG','UTG+1','UTG+2','Dealer','Small Blind','Big Blind'
 				);
 			?>
-			<select class="form-control" id="exampleSelect1">
+			<select name="position" class="form-control" id="exampleSelect1">
 			  <?php foreach($positions as $position): ?>
-				<option value="<?= $position?>"><?= $position?></option>	
+					<?php if ($position == $params['position']): ?>
+						<option selected="" value="<?= $position?>">
+							<?= $position?>
+						</option>
+					<?php else: ?>
+						<option value="<?= $position?>">
+							<?= $position?>
+						</option>
+					<?php endif; ?>
 			  <?php endforeach;?>
 			</select>
 		  </div>
@@ -84,25 +91,17 @@ Shoving Ranges of Postions of x Players
 			<small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
 		  </div>
 		  !-->
+
 		  <fieldset class="form-group">
-			<div class="form-check">
-			  <label class="form-check-label">
-				<input type="radio" class="form-check-input" name="is_me" value="-1" checked>
-				Include All Results
-			  </label>
-			</div>
-			<div class="form-check">
-			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="is_me" value="1" >
-				Include Only My Results
-			  </label>
-			</div>
-			<div class="form-check">
-			<label class="form-check-label">
-				<input type="radio" class="form-check-input" name="is_me" value = "0" >
-				Exclude My Results
-			  </label>
-			</div>
+				<?php foreach ($resultRadio as $key => $rRadio): ?>
+					<div class="form-check">
+					  <label class="form-check-label">
+						<input <?= $rRadio->checked ?> type="radio" class="form-check-input"
+						name="is_me" value="<?= $rRadio->value ?>">
+							<?= $rRadio->alias ?>
+					  </label>
+					</div>
+				<?php endforeach; ?>
 		  </fieldset>
 		  <button type="submit" class="btn btn-primary">Submit</button>
 		</form>
