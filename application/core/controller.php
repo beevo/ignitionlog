@@ -1,6 +1,4 @@
 <?php
-require_once(APP . 'libs/ssi_functions.php');
-require_once(APP . 'libs/constants.php');
 class Controller
 {
   /**

@@ -154,7 +154,6 @@ class Model
 		}
 		$values = implode(', ', $values);
 		$insert = 'INSERT INTO ' . $this->tableName . " ($columns) VALUES ($values)";
-		// return;
 		// if database connection opened
 		if ($this->databaseConnection()) {
 			$query = $this->db_connection->prepare($insert);
@@ -269,6 +268,53 @@ class Model
       unset($attributes[$name]);
     }
     $where .= '1';
+    $select = 'SELECT * FROM ' . $this->tableName;
+    $select .= ' WHERE '. $where;
+		if(!empty($sort)){
+			if(isset($sort['order'])) {
+				$select .= ' ORDER BY ' . $sort['order'] . ' ASC';
+			}
+		}else if($this->defaultOrderColumn){
+
+				$select .= ' ORDER BY ' . $this->defaultOrderColumn;
+		}
+    // if database connection opened
+    if ($this->databaseConnection()) {
+      $query = $this->db_connection->prepare($select);
+      $query->execute($attributes);
+      if ($query->rowCount() > 0) {
+        while ($record = $query->fetchObject()) {
+					$this->_setRelations($record);
+          $records[] = $record;
+        }
+      }
+    }else{
+      throw new Exception('No Db Connection');
+    }
+    return $records;
+  }
+  
+    public function search($attributes = array(), $sort = array()){
+	/*
+		array(
+			'action LIKE' => '%shove%',
+			'AND effective_bet_bbs >' => 10
+		);
+	
+	*/
+    $records = array();
+    if(empty($attributes)){
+      return $this->findAll();
+    }
+    $where = '';
+    // create the where statement by mapping the attributes
+    // a format like id = :id, name = :name
+    foreach(array_keys($attributes) as $key => $name){
+      $where .= "$name :p$key ";
+      $attributes[":p$key"] = $attributes[$name];
+      unset($attributes[$name]);
+    }
+
     $select = 'SELECT * FROM ' . $this->tableName;
     $select .= ' WHERE '. $where;
 		if(!empty($sort)){
