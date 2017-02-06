@@ -8,7 +8,7 @@ class Home extends Controller{
 
 
 	$this->_importTournaments();
-	$this->redirect('home');  
+	$this->index();
   }
   public function index(){
     if (isset($_GET['import'])) {
@@ -19,7 +19,7 @@ class Home extends Controller{
       'histories' => $histories
     ));
   }
-  
+
   private function _importTournaments(){
     $history_dir = 'C:/Ignition/Hand History/14056034/';
     $history_files = scandir($history_dir);
@@ -77,6 +77,8 @@ class Home extends Controller{
         $buyin = $buyinExplode[0] + $buyinExplode[1];
         $game['notes'] = "$".$buyin . " Ticket";
       }else{
+        Helper::log($file);
+        Helper::log($buyinExplode);
         $buyinExplode = explode('-',$buyin);
         $buyin = $buyinExplode[0] + $buyinExplode[1];
       }

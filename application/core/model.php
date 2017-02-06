@@ -293,30 +293,33 @@ class Model
     }
     return $records;
   }
-  
+
     public function search($attributes = array(), $sort = array()){
 	/*
 		array(
 			'action LIKE' => '%shove%',
 			'AND effective_bet_bbs >' => 10
 		);
-	
+
 	*/
     $records = array();
     if(empty($attributes)){
       return $this->findAll();
     }
     $where = '';
+		$whereCheck = "";
     // create the where statement by mapping the attributes
     // a format like id = :id, name = :name
     foreach(array_keys($attributes) as $key => $name){
       $where .= "$name :p$key ";
+      $whereCheck .= "$name '".$attributes[$name]."' ";
       $attributes[":p$key"] = $attributes[$name];
       unset($attributes[$name]);
     }
 
     $select = 'SELECT * FROM ' . $this->tableName;
-    $select .= ' WHERE '. $where;
+		$selectCheck = $select .= " WHERE ". $whereCheck;
+		$select .= ' WHERE '. $where;
 		if(!empty($sort)){
 			if(isset($sort['order'])) {
 				$select .= ' ORDER BY ' . $sort['order'] . ' ASC';
@@ -325,6 +328,8 @@ class Model
 
 				$select .= ' ORDER BY ' . $this->defaultOrderColumn;
 		}
+		// Helper::log($selectCheck);
+		$select = $selectCheck;
     // if database connection opened
     if ($this->databaseConnection()) {
       $query = $this->db_connection->prepare($select);

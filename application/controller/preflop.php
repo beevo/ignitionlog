@@ -21,14 +21,61 @@ class Preflop extends Controller{
   }
 
   public function index(){
-    $actions = PreflopActionModel::model()->findAll();
-  	$params =	array(
-  		'action LIKE' => 'shove%',
-  		'AND effective_bet_bbs <' => 10,
-  		'AND is_me =' => 1
-  	);
-  	$actions = PreflopActionModel::model()->search($params);
-  	//Helper::log($actions);
+    $actions = array();
+    if (isset($_GET)) {
+      if (count($_GET) > 1) {
+        $params = array();
+        $params['action LIKE '] = $_GET['action'] . "%";
+        if ($_GET['is_me'] != -1) {
+          $params['AND is_me = '] = $_GET['is_me'];
+        }
+        if ($_GET['players']) {
+          $totalPlayersTitle = "AND total_players";
+          switch ($_GET['player_comp']) {
+            case 'eq':
+              $params[$totalPlayersTitle . ' ='] = $_GET['players'];
+              break;
+            case 'lt':
+              $params[$totalPlayersTitle . ' <= '] = $_GET['players'];
+              break;
+            case 'gt':
+              $params[$totalPlayersTitle . ' >= '] = $_GET['players'];
+              break;
+            default:
+              break;
+          }
+        }
+        if ($_GET['e_bet']) {
+          $effectiveBetTitle = "AND effective_bet_bbs";
+          switch ($_GET['e_bet_comp']) {
+            case 'eq':
+              $params[$effectiveBetTitle . ' ='] = $_GET['e_bet'];
+              break;
+            case 'lt':
+              $params[$effectiveBetTitle . ' <= '] = $_GET['e_bet'];
+              break;
+            case 'gt':
+              $params[$effectiveBetTitle . ' >= '] = $_GET['e_bet'];
+              break;
+            default:
+              break;
+          }
+        }
+
+        if (isset($_GET['positions'])) {
+          foreach ($_GET['positions'] as $key => $pos) {
+            if ($key == 0) {
+              $params['AND position ='] = $pos;
+            }else{
+            $params['OR position ='] = $pos;
+            }
+          }
+        }
+      	$actions = PreflopActionModel::model()->search($params);
+      }else{
+        Helper::log("Not enough parameters.");
+      }
+    }
   	$ranks = RankModel::model()->findAllByAttributes(array(
   		'chart' => 'Equity Squared'
   	));
@@ -41,11 +88,38 @@ class Preflop extends Controller{
   		$newRanks[$rank->hand] = $rank;
   	}
 
+    $stats = array();
+    // Helper::log($newRanks);
+    $rankings = array();
+    if (count($actions) > 0) {
+      foreach ($actions as $key => $action) {
+        $action->percentage = $newRanks[$action->hand]->percentage;
+        // Helper::log($newRanks[$action->hand]);
+        if ($newRanks[$action->hand]->percentage > 50) {
+          // Helper::log($action);
+        }
+        $rankings[] = $newRanks[$action->hand]->percentage;
+      }
+      asort($rankings);
+      $vals = array_values($rankings);
+      $sum = array_sum($rankings);
+      $average = $sum/count($rankings);
+      $lowest = end($rankings);
+      $median = $vals[count($vals)/2];
+      $stats['average'] = $average;
+      $stats['median'] = $median;
+      $stats['lowest'] = $lowest;
+      // Helper::log($rankings);
+      // Helper::log($stats);
+    }
+
+
     $params = $this->_getParams();
     $resultRadio = $this->_getResultRadios();
     $betComps = $this->_getComps('e_bet_comp');
     $playerComps = $this->_getComps('player_comp');
     $this->renderView('preflop/index.php',array(
+      'stats' => $stats,
       'ranks' => $newRanks,
       'actions' => $actions,
       'params'  => $params,
@@ -137,8 +211,8 @@ class Preflop extends Controller{
   private function _getParams(){
     $params = $_GET;
     $defaultParams = array(
-      'players' => 6,
-      'e_bet' => 10,
+      'players' => '',
+      'e_bet' => '',
       'is_me' => -1,
       'position' => 'UTG'
     );
